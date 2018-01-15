@@ -20,12 +20,13 @@ class Gen:
             for i in range(100):
                 conn,addr = server.accept()
                 data=conn.recv(1)
-                print("got",data)
                 # this completely obvious CRAP code
                 # is for python 3
                 data = struct.unpack("B",data)[0]
+                print(data,end="")
                 self.mix(data)
                 conn.close()
+            print()
         import threading
         t =threading.Thread(target=server_target)
         t.start()
