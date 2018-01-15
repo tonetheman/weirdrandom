@@ -10,6 +10,7 @@ class Gen:
         self.r = (int(self.r<<5)+int(self.r)) + int(v)
     def gen(self):
         import socket
+        import struct
         def server_target():
             SERVER_HOST =""
             SERVER_PORT = 16777
@@ -20,7 +21,10 @@ class Gen:
                 conn,addr = server.accept()
                 data=conn.recv(1)
                 print("got",data)
-                self.mix(int(data))
+                # this completely obvious CRAP code
+                # is for python 3
+                data = struct.unpack("B",data)[0]
+                self.mix(data)
                 conn.close()
         import threading
         t =threading.Thread(target=server_target)
@@ -35,7 +39,8 @@ class Gen:
             for i in range(50):
                 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
                 s.connect((H,P))
-                s.send(str(id))
+                # changed this python3
+                s.send(struct.pack("B",id))
                 s.close()
         t1 = threading.Thread(target=client_target,args=(1,))
         t2 = threading.Thread(target=client_target,args=(2,))
