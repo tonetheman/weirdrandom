@@ -17,10 +17,29 @@ func (r *rand) rand() uint32 {
 	return uint32(*r)
 }
 
-func main() {
+func shiftLeft5(a uint32) uint32 {
+	return a << 5
+}
+
+func shiftRight31(a uint32) uint32 {
+	return a >> 31
+}
+
+func shiftRight31WithAnd(a uint32) uint32 {
+	return (a >> 31) & 0xa8888eef
+}
+
+func test1() {
 	var r rand
 	for i := 0; i < 10; i++ {
 		r.mix(uint32(i))
 	}
 	fmt.Println(r.rand())
+}
+
+func main() {
+	fmt.Println(shiftLeft5(600))
+	fmt.Println(shiftRight31(600))
+	fmt.Println(shiftRight31WithAnd(600))
+
 }
